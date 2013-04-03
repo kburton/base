@@ -3,14 +3,18 @@
 // Load passwords file
 require(dirname(__FILE__).'/passwords.php');
 
-// uncomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
+// Required path alias for bootstrap
+Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
+
+// Shortcut to bootstrap widgets
+Yii::setPathOfAlias('bw', dirname(__FILE__).'/../extensions/bootstrap/widgets');
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Base Web Application',
+	'theme'=>'bootstrap',
 	
 	// used for messages
 	'language'=>'en',
@@ -99,6 +103,9 @@ return array(
 			'class'=>'CDbHttpSession',
 			'connectionID'=>'db',
 			'timeout'=>14400,
+		),
+		'bootstrap'=>array(
+			'class'=>'bootstrap.components.Bootstrap',
 		),
 	),
 

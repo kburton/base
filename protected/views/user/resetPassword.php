@@ -1,40 +1,29 @@
-<? if ($flashMessage = Yii::app()->user->getFlash('user/reset_password:error')): ?>
+<? if (!Yii::app()->user->hasFlash('error')): ?>
 
-	<? $flashMessage->render(); ?>
+	<div class="page-header"><h1>Reset Password</h1></div>
+		
+	<? $form = $this->beginWidget('bw.TbActiveForm', array(
+		'id'=>'resetPasswordForm',
+		'type'=>'vertical',
+		'focus'=>'#resetPasswordForm input:text[value=]:first,'
+			   . '#resetPasswordForm input[class*=error]:first',
+	)); ?>
 
-<? else: ?>
+	<div class="help-block">
+		Please enter your new password into both fields below.
+	</div>
+	<div class="help-block">
+		<? $this->widget('bw.TbBadge', array('type'=>'info', 'label'=>'Info')); ?>
+		<?= CHtml::encode(Password::getPolicyMessage()) ?>
+	</div>
 
-	<h1>Reset Password</h1>
+	<?= $form->passwordFieldRow($resetPasswordForm, 'password'); ?>
+	<?= $form->passwordFieldRow($resetPasswordForm, 'passwordRepeat'); ?>
 
-	<p>Please enter your new password into both fields below.</p>
+	<div class="form-actions">
+		<? $this->widget('bw.TbButton',	array('label'=>'Reset Password', 'buttonType'=>'submit', 'type'=>'primary')); ?>
+	</div>
 
-	<div class="form">
-
-		<? $form = $this->beginWidget('CActiveForm', array(
-			'id'=>'resetPasswordForm',
-			'focus'=>'#resetPasswordForm input:text[value=]:first,'
-				   . '#resetPasswordForm input[class=error]:first',
-		)); ?>
-
-		<div class="row">
-			<?= $form->labelEx($resetPasswordForm, 'password'); ?>
-			<div class="hint" style="width:35em;"><?= CHtml::encode(Password::getPolicyMessage()); ?></div>
-			<?= $form->error($resetPasswordForm, 'password'); ?>
-			<?= $form->passwordField($resetPasswordForm, 'password'); ?>
-		</div>
-
-		<div class="row">
-			<?= $form->labelEx($resetPasswordForm, 'passwordRepeat'); ?>
-			<?= $form->error($resetPasswordForm, 'passwordRepeat'); ?>
-			<?= $form->passwordField($resetPasswordForm, 'passwordRepeat'); ?>
-		</div>
-
-		<div class="row buttons">
-			<?= CHtml::submitButton('Reset Password', array('class'=>'btn btn-primary')); ?>
-		</div>
-
-		<? $this->endWidget() ?>
-
-	</div><!-- form -->
+	<? $this->endWidget(); ?>
 
 <? endif; ?>

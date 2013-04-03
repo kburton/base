@@ -1,11 +1,5 @@
-<h1>My Account</h1>
+<div class="page-header"><h1>My Account</h1></div>
 
 <p>
-	Please use the links below to manage your account.
-</p>
-
-<p>
-	<?= CHtml::link('Change Password', array('/user/change_password'), array(
-			'class'=>'btn btn-inverse btn-large',
-			'title'=>'Change your account password')); ?>
+	Please use the links in the side bar manage your account.
 </p>

@@ -36,17 +36,17 @@ class UserController extends AdminBaseController
 			{
 				FlashMessage::setSuccess('Thanks, the user has been created. You can update their details below.',
 						'User Created');
-				$this->redirect(array('/admin/user/edit', 'id'=>$user->Id));
+				$this->redirect(array('/admin/user/update', 'id'=>$user->Id));
 			}
 		}
 		
-		$this->render('edit', array('user'=>$user));
+		$this->render('update', array('user'=>$user));
 	}
 	
-	public function actionEdit($id)
+	public function actionUpdate($id)
 	{
-		$this->pageTitle = 'Admin | Edit User';
-		$this->breadcrumbs[] = 'Edit User';
+		$this->pageTitle = 'Admin | Update User';
+		$this->breadcrumbs[] = 'Update User';
 
 		$user = User::model()->findByPk($id);
 		
@@ -64,7 +64,7 @@ class UserController extends AdminBaseController
 			}
 		}
 		
-		$this->render('edit', array('user'=>$user));
+		$this->render('update', array('user'=>$user));
 	}
 
 }

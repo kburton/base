@@ -39,29 +39,30 @@ class FlashMessage extends CComponent
 		$this->title = $title;
 		$this->key = array_key_exists('key', $options) ? $options['key'] : mt_rand();
 	}
+	
+	private static function getMessage($message, $title)
+	{
+		return '<strong>' . $title . '</strong><br />' . $message; 
+	}
 
 	public static function setError($message, $title = 'Error', $options = array())
 	{
-		$message = new FlashMessage(self::TYPE_ERROR, $message, $title, $options);
-		Yii::app()->user->setFlash($message->key, $message);
+		Yii::app()->user->setFlash('error', self::getMessage($message, $title));
 	}
 
 	public static function setWarning($message, $title = 'Warning', $options = array())
 	{
-		$message = new FlashMessage(self::TYPE_WARNING, $message, $title, $options);
-		Yii::app()->user->setFlash($message->key, $message);
+		Yii::app()->user->setFlash('warning', self::getMessage($message, $title));
 	}
 
 	public static function setSuccess($message, $title = 'Success', $options = array())
 	{
-		$message = new FlashMessage(self::TYPE_SUCCESS, $message, $title, $options);
-		Yii::app()->user->setFlash($message->key, $message);
+		Yii::app()->user->setFlash('success', self::getMessage($message, $title));
 	}
 
 	public static function setNotice($message, $title = 'Notice', $options = array())
 	{
-		$message = new FlashMessage(self::TYPE_NOTICE, $message, $title, $options);
-		Yii::app()->user->setFlash($message->key, $message);
+		Yii::app()->user->setFlash('info', self::getMessage($message, $title));
 	}
 
 	public function render()

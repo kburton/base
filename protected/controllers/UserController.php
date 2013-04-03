@@ -2,6 +2,14 @@
 
 class UserController extends Controller
 {
+	function __construct($id, $module = null)
+	{
+		parent::__construct($id, $module);
+		
+		if (!Yii::app()->user->isGuest)
+			$this->layout = '//layouts/column2';
+	}
+	
 	/**
 	 * Declares class-based actions.
 	 */
@@ -12,6 +20,23 @@ class UserController extends Controller
 			'captcha'=>array(
 				'class'=>'CCaptchaAction',
 			),
+		);
+	}
+	
+	public function getMenu()
+	{
+		if (Yii::app()->user->isGuest)
+			return array();
+		
+		$controllerId = Yii::app()->controller->id;
+		$actionId = Yii::app()->controller->action->id;
+		
+		return array(
+			array('label'=>'MY ACCOUNT'),
+			array('label'=>'View My Details', 'url'=>'/user/view', 'icon'=>'user',
+				'active'=>$controllerId === 'user' && $actionId === 'view'),
+			array('label'=>'Change Password', 'url'=>'/user/change_password', 'icon'=>'edit',
+				'active'=>$controllerId === 'user' && $actionId === 'change_password'),
 		);
 	}
 	
@@ -27,6 +52,7 @@ class UserController extends Controller
 	{
 		$this->pageTitle = 'Login';
 		$this->breadcrumbs[] = 'Login';
+		$this->layout = '//layouts/column1';
 		
 		$loginForm = new LoginForm;
 		
@@ -47,6 +73,8 @@ class UserController extends Controller
 
 	public function actionLogout()
 	{
+		$this->layout = '//layouts/column1';
+
 		Yii::app()->user->logout();
 
 		FlashMessage::setSuccess('Thanks, you have been logged out.', 'Logged Out');
@@ -58,6 +86,7 @@ class UserController extends Controller
 	{
 		$this->pageTitle = 'Request Password Reset';
 		$this->breadcrumbs[] = 'Request Password Reset';
+		$this->layout = '//layouts/column1';
 		
 		$requestPasswordResetForm = new RequestPasswordResetForm;
 
@@ -92,6 +121,7 @@ class UserController extends Controller
 	{
 		$this->pageTitle = 'Reset Password';
 		$this->breadcrumbs[] = 'Reset Password';
+		$this->layout = '//layouts/column1';
 		
 		$resetPasswordForm = null;
 		$requestIsValid = false;
@@ -157,6 +187,17 @@ class UserController extends Controller
 		}
 		
 		$this->render('changePassword', array('changePasswordForm'=>$changePasswordForm));
+	}
+	
+	public function actionView()
+	{
+		$this->pageTitle = 'My Details';
+		$this->breadcrumbs['My Account'] = '/user';
+		$this->breadcrumbs[] = 'My Details';
+		
+		$user = Yii::app()->user->user;
+		
+		$this->render('view', array('user'=>$user));
 	}
 
 }

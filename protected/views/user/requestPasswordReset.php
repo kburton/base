@@ -1,46 +1,28 @@
-<? if ($flashMessage = Yii::app()->user->getFlash('user/request_password_reset:success')): ?>
+<? if (!Yii::app()->user->hasFlash('success')): ?>
 
-	<? $flashMessage->render(); ?>
+	<div class="page-header"><h1>Request Password Reset</h1></div>
 
-<? else: ?>
+	<? $form = $this->beginWidget('bw.TbActiveForm', array(
+		'id'=>'requestPasswordResetForm',
+		'type'=>'vertical',
+		'focus'=>'#requestPasswordResetForm input:text[value=]:first,'
+			   . '#requestPasswordResetForm input[class*=error]:first',
+	)); ?>
 
-	<h1>Request Password Reset</h1>
-
-	<p>
+	<div class="help-block">
 		Please complete the form below if you wish to reset your password.<br />
 		You will receive an email with a link to the password reset page.
-	</p>
+	</div>
 
-	<div class="form">
+	<?= $form->textFieldRow($requestPasswordResetForm, 'email'); ?>
+	<?= $form->captchaRow($requestPasswordResetForm, 'captcha', array(
+		'hint'=>Yii::t('captcha', 'hint'),
+	)); ?>
 
-		<? $form = $this->beginWidget('CActiveForm', array(
-			'id'=>'requestPasswordResetForm',
-			'focus'=>'#requestPasswordResetForm input:text[value=]:first,'
-				   . '#requestPasswordResetForm input[class=error]:first',
-		)); ?>
+	<div class="form-actions">
+		<? $this->widget('bw.TbButton',	array('label'=>'Request Password Reset', 'buttonType'=>'submit', 'type'=>'primary')); ?>
+	</div>
 
-		<div class="row">
-			<?= $form->labelEx($requestPasswordResetForm, 'email'); ?>
-			<?= $form->error($requestPasswordResetForm, 'email'); ?>
-			<?= $form->textField($requestPasswordResetForm, 'email'); ?>
-		</div>
-
-		<div class="row captcha">
-			<?= $form->labelEx($requestPasswordResetForm, 'captcha'); ?>
-			<div>
-				<? $this->widget('CCaptcha'); ?><br />
-				<?= $form->error($requestPasswordResetForm, 'captcha'); ?>
-				<?= $form->textField($requestPasswordResetForm, 'captcha'); ?>
-			</div>
-			<div class="hint"><?= Yii::t('captcha', 'hint'); ?></div>
-		</div>
-
-		<div class="row buttons">
-			<?= CHtml::submitButton('Request Password Reset', array('class'=>'btn btn-primary')); ?>
-		</div>
-
-		<? $this->endWidget() ?>
-
-	</div><!-- form -->
+	<? $this->endWidget(); ?>
 
 <? endif; ?>

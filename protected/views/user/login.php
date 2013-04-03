@@ -1,39 +1,31 @@
-<h1>Log In</h1>
+<div class="page-header"><h1>Log In</h1></div>
 
-<div class="form">
+<? $form = $this->beginWidget('bw.TbActiveForm', array(
+	'id'=>'loginForm',
+	'action'=>array('/user/login'),
+	'type'=>'vertical',
+	'focus'=>'#loginForm input:text[value=]:first,'
+		   . '#loginForm input[class*=error]:first',
+)); ?>
 
-	<? $form = $this->beginWidget('CActiveForm', array(
-		'id'=>'loginForm',
-		'action'=>array('/user/login'),
-		'focus'=>'#loginForm input:text[value=]:first,'
-			   . '#loginForm input[class=error]:first',
-	)); ?>
+<?= $form->textFieldRow($loginForm, 'email'); ?>
 
-	<div class="row">
-		<?= $form->labelEx($loginForm, 'email'); ?>
-		<?= $form->error($loginForm, 'email'); ?>
-		<?= $form->textField($loginForm, 'email'); ?>
-	</div>
+<?= $form->passwordFieldRow($loginForm, 'password', array(
+	'hint'=>CHtml::link('Forgotten password?', array('/user/request_password_reset')),
+	'hintOptions'=>array('class'=>'help-inline'),
+)); ?>
 
-	<div class="row">
-		<?= $form->labelEx($loginForm, 'password'); ?>
-		<div class="hint" style="width:35em;"><?= CHtml::encode(Password::getPolicyMessage()); ?></div>
-		<?= $form->error($loginForm, 'password'); ?>
-		<?= $form->passwordField($loginForm, 'password'); ?>
-		<?= CHtml::link('Forgotten password?', array('/user/request_password_reset')); ?>
-	</div>
+<div class="help-block">
+	<? $this->widget('bw.TbBadge', array('type'=>'info', 'label'=>'Info')); ?>
+	<?= CHtml::encode(Password::getPolicyMessage()) ?>
+</div>
 
-	<div class="row rememberMe">
-		<?= $form->checkBox($loginForm, 'rememberMe'); ?>
-		<?= $form->labelEx($loginForm, 'rememberMe'); ?>
-		<?= $form->error($loginForm, 'rememberMe'); ?>
-	</div>
+<?= $form->checkBoxRow($loginForm, 'rememberMe'); ?>
 
-	<div class="row buttons">
-		<?= CHtml::submitButton('Log In', array('class'=>'btn btn-primary')); ?>
-	</div>
+<div class="form-actions">
+	<? $this->widget('bw.TbButton',	array('label'=>'Log In', 'buttonType'=>'submit', 'type'=>'primary')); ?>
+</div>
 
-	<? $this->endWidget() ?>
+<? $this->endWidget(); ?>
 	
-</div><!-- form -->
 

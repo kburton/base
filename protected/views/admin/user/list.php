@@ -1,33 +1,29 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#AdminUsersGridViewReload').on('click', function(){
-			$.fn.yiiGridView.update('AdminUsersGridView');
+		$('#adminUsersGridViewReload').on('click', function(){
+			$.fn.yiiGridView.update('adminUsersGridView');
 			return false;
 		});
 	});
 </script>
 
 <div style="float:right;">
-	<?= CHtml::link('Create New User <i class="icon-chevron-right icon-white"></i>',
-			array('/admin/user/create'),
-			array('target'=>'_blank', 'class'=>'btn btn-success')); ?>
+	<? $this->widget('bw.TbButton', array(
+		'label'=>'Refresh Table', 'icon'=>'refresh',
+		'htmlOptions'=>array('id'=>'adminUsersGridViewReload'),
+	)); ?>
 </div>
 
-<h1>
-	Manage Users
-	<?= CHtml::link(
-			CHtml::image(Yii::app()->baseUrl . '/images/refresh.png', 'Reload table'),
-			'#', array('id'=>'AdminUsersGridViewReload', 'title'=>'Reload table')
-		); ?>
-</h1>
+<div class="page-header"><h1>Manage Users</h1></div>
 
 <?
 	$dataProvider = $userFilter->search();
 	$dataProvider->pagination->pageSize = 50;
 	
-	$this->widget('zii.widgets.grid.CGridView', array(
-		'id'=>'AdminUsersGridView',
+	$this->widget('bw.TbGridView', array(
+		'id'=>'adminUsersGridView',
 		'dataProvider'=>$dataProvider,
+		'type'=>'striped condensed',
 		'filter'=>$userFilter,
 		'selectableRows'=>0,
 		'columns'=>array(
@@ -57,16 +53,9 @@
 				'value'=>'$data->getIsAdminForDisplay()',
 			),
 			array(
-				'class'=>'CButtonColumn',
+				'class'=>'bw.TbButtonColumn',
 				'template'=>'{update}',
-				'header'=>'<i class="icon-pencil icon-white"></i>',
-				'htmlOptions'=>array('style'=>'width:auto;'),
-				'headerHtmlOptions'=>array('style'=>'width:auto;'),
-				'updateButtonLabel'=>'Edit',
-				'updateButtonOptions'=>array('target'=>'_blank', 'class'=>'update-button'),
-				'updateButtonUrl'=>function($data){
-					return Yii::app()->createUrl('/admin/user/edit', array('id'=>$data->Id));
-				},
+				'updateButtonOptions'=>array('target'=>'_blank'),
 			),
 		),
 	));
