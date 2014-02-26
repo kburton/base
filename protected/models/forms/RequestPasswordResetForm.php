@@ -22,7 +22,7 @@ class RequestPasswordResetForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'captcha'=>'Image Verification Code',
+			'captcha'=>'Image Verification',
 		);
 	}
 

@@ -1,42 +1,34 @@
-<h1>Change Password</h1>
+<?= TbHtml::pageHeader('Change Password', ''); ?>
 
-<p class="note">
-	Use the form below to update your account password.<br />
-	You will need to enter your current password first as a security measure.
-</p>
-
-<div class="form">
-
-	<p class="hint"><?= CHtml::encode(Password::getPolicyMessage()); ?></p>
-	
-	<? $form = $this->beginWidget('CActiveForm', array(
-		'id'=>'changePasswordForm',
-		'focus'=>'#changePasswordForm input:text[value=]:first,'
-				. '#changePasswordForm input[class=error]:first',
-	)); ?>
-
-	<div class="row">
-		<?= $form->labelEx($changePasswordForm, 'oldPassword'); ?>
-		<?= $form->error($changePasswordForm, 'oldPassword'); ?>
-		<?= $form->passwordField($changePasswordForm, 'oldPassword'); ?>
+<div class="alert alert-info">
+	<div class="glyphicon glyphicon-info-sign two-line"></div>
+	<div class="alert-content">
+		Use the form below to update your account password.<br />
+		You will need to enter your current password first as a security measure.<br />
 	</div>
-
-	<div class="row">
-		<?= $form->labelEx($changePasswordForm, 'newPassword'); ?>
-		<?= $form->error($changePasswordForm, 'newPassword'); ?>
-		<?= $form->passwordField($changePasswordForm, 'newPassword'); ?>
-	</div>
-
-	<div class="row">
-		<?= $form->labelEx($changePasswordForm, 'newPasswordRepeat'); ?>
-		<?= $form->error($changePasswordForm, 'newPasswordRepeat'); ?>
-		<?= $form->passwordField($changePasswordForm, 'newPasswordRepeat'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?= CHtml::submitButton('Change Password', array('class'=>'btn btn-primary')); ?>
-	</div>
-
-	<? $this->endWidget() ?>
-
 </div>
+
+<? $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+	'id'=>'changePasswordForm',
+	'layout'=>TbHtml::FORM_LAYOUT_HORIZONTAL,
+	'labelWidthClass'=>'col-sm-4',
+	'controlWidthClass'=>'col-sm-5',
+	'focus'=>'#changePasswordForm input:password:empty:first, #changePasswordForm input.error:first',
+)); ?>
+
+<?= $form->passwordFieldControlGroup($changePasswordForm, 'oldPassword', array(
+	'help'=>'<span class="label label-info">Hint</span> ' . CHtml::encode(Password::getPolicyMessage()),
+)); ?>
+
+<?= $form->passwordFieldControlGroup($changePasswordForm, 'newPassword'); ?>
+
+<?= $form->passwordFieldControlGroup($changePasswordForm, 'newPasswordRepeat'); ?>
+
+<?= $form->createFormActions(array(
+	TbHtml::submitButton('Change Password', array(
+		'color'=>TbHtml::BUTTON_COLOR_PRIMARY,
+		'size'=>TbHtml::BUTTON_SIZE_LG,
+	)),
+)); ?>
+
+<? $this->endWidget() ?>

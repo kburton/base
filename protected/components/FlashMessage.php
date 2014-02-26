@@ -2,27 +2,23 @@
 
 class FlashMessage extends CComponent
 {
-	const TYPE_ERROR = 1;
-	const TYPE_WARNING = 2;
-	const TYPE_SUCCESS = 3;
-	const TYPE_NOTICE = 4;
+	const TYPE_ERROR = TbHtml::ALERT_COLOR_DANGER;
+	const TYPE_WARNING = TbHtml::ALERT_COLOR_WARNING;
+	const TYPE_SUCCESS = TbHtml::ALERT_COLOR_SUCCESS;
+	const TYPE_NOTICE = TbHtml::ALERT_COLOR_INFO;
 
 	private static $typeData = array(
 		self::TYPE_ERROR => array(
-			'class' => 'flash-error',
-			'icon' => '<i class="icon-remove"></i>',
+			'icon' => '<div class="glyphicon glyphicon-remove two-line"></div>',
 		),
 		self::TYPE_WARNING => array(
-			'class' => 'flash-warning',
-			'icon' => '<i class="icon-exclamation-sign"></i>',
+			'icon' => '<div class="glyphicon glyphicon-warning-sign two-line"></div>',
 		),
 		self::TYPE_SUCCESS => array(
-			'class' => 'flash-success',
-			'icon' => '<i class="icon-ok"></i>',
+			'icon' => '<div class="glyphicon glyphicon-ok two-line"></div>',
 		),
 		self::TYPE_NOTICE => array(
-			'class' => 'flash-notice',
-			'icon' => '<i class="icon-info-sign"></i>',
+			'icon' => '<div class="glyphicon glyphicon-info-sign two-line"></div>',
 		),
 	);
 
@@ -67,12 +63,7 @@ class FlashMessage extends CComponent
 	public function render()
 	{
 		$typeData = self::$typeData[$this->type];
-		echo '<div class="flash-message ' . $typeData['class'] . '">';
-		echo '<div class="close-button btn btn-danger"><i class="icon-remove icon-white"></i></div>';
-		echo '<div class="message-container">';
-		echo '<h3><span class="icon-container">' . $typeData['icon'] . '</span> '
-				. CHtml::encode($this->title) . '</h3>';
-		echo $this->message;
-		echo '</div></div>';
+		echo TbHtml::alert($this->type, $typeData['icon'] . '<div class="alert-content"><strong>'
+				. CHtml::encode($this->title) . '</strong><br />' . $this->message . '</div>');
 	}
 }

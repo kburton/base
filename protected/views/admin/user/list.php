@@ -1,32 +1,39 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#AdminUsersGridViewReload').on('click', function(){
-			$.fn.yiiGridView.update('AdminUsersGridView');
+		$('#adminUsersGridViewReload').on('click', function(){
+			$.fn.yiiGridView.update('adminUsersGridView');
 			return false;
 		});
 	});
 </script>
 
-<div style="float:right;">
-	<?= CHtml::link('Create New User <i class="icon-chevron-right icon-white"></i>',
-			array('/admin/user/create'),
-			array('target'=>'_blank', 'class'=>'btn btn-success')); ?>
+<div class="page-header">
+	<div class="row">
+		<div class="col-sm-6">
+			<h1>Manage Users</h1>
+		</div>
+		<div class="col-sm-6 text-right">
+			<div class="header-controls">
+				<?= CHtml::link('<span class="glyphicon glyphicon-refresh"></span>', '#', array(
+					'id'=>'adminUsersGridViewReload',
+					'class'=>'btn btn-info',
+					'title'=>'Refresh table using current filters',
+				)); ?>
+				<?= CHtml::link('<span class="glyphicon glyphicon-user"></span> Create New User <span class="glyphicon glyphicon-chevron-right"></span>',
+						array('/admin/user/create'),
+						array('target'=>'_blank', 'class'=>'btn btn-success')); ?>
+			</div>
+		</div>
+	</div>
 </div>
-
-<h1>
-	Manage Users
-	<?= CHtml::link(
-			CHtml::image(Yii::app()->baseUrl . '/images/refresh.png', 'Reload table'),
-			'#', array('id'=>'AdminUsersGridViewReload', 'title'=>'Reload table')
-		); ?>
-</h1>
 
 <?
 	$dataProvider = $userFilter->search();
 	$dataProvider->pagination->pageSize = 50;
 	
-	$this->widget('zii.widgets.grid.CGridView', array(
-		'id'=>'AdminUsersGridView',
+	$this->widget('TbGridView', array(
+		'id'=>'adminUsersGridView',
+		'type'=>TbHtml::GRID_TYPE_HOVER,
 		'dataProvider'=>$dataProvider,
 		'filter'=>$userFilter,
 		'selectableRows'=>0,
@@ -57,13 +64,10 @@
 				'value'=>'$data->getIsAdminForDisplay()',
 			),
 			array(
-				'class'=>'CButtonColumn',
+				'class'=>'TbButtonColumn',
 				'template'=>'{update}',
-				'header'=>'<i class="icon-pencil icon-white"></i>',
-				'htmlOptions'=>array('style'=>'width:auto;'),
-				'headerHtmlOptions'=>array('style'=>'width:auto;'),
 				'updateButtonLabel'=>'Edit',
-				'updateButtonOptions'=>array('target'=>'_blank', 'class'=>'update-button'),
+				'updateButtonOptions'=>array('target'=>'_blank'),
 				'updateButtonUrl'=>function($data){
 					return Yii::app()->createUrl('/admin/user/edit', array('id'=>$data->Id));
 				},

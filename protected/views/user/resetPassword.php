@@ -4,37 +4,35 @@
 
 <? else: ?>
 
-	<h1>Reset Password</h1>
+	<?= TbHtml::pageHeader('Reset Password', ''); ?>
 
-	<p>Please enter your new password into both fields below.</p>
-
-	<div class="form">
-
-		<? $form = $this->beginWidget('CActiveForm', array(
-			'id'=>'resetPasswordForm',
-			'focus'=>'#resetPasswordForm input:text[value=]:first,'
-				   . '#resetPasswordForm input[class=error]:first',
-		)); ?>
-
-		<div class="row">
-			<?= $form->labelEx($resetPasswordForm, 'password'); ?>
-			<div class="hint" style="width:35em;"><?= CHtml::encode(Password::getPolicyMessage()); ?></div>
-			<?= $form->error($resetPasswordForm, 'password'); ?>
-			<?= $form->passwordField($resetPasswordForm, 'password'); ?>
+	<div class="alert alert-info">
+		<div class="glyphicon glyphicon-info-sign two-line"></div>
+		<div class="alert-content">
+			Please enter your new password into both fields below.<br />
+			<?= CHtml::encode(Password::getPolicyMessage()); ?>
 		</div>
+	</div>
 
-		<div class="row">
-			<?= $form->labelEx($resetPasswordForm, 'passwordRepeat'); ?>
-			<?= $form->error($resetPasswordForm, 'passwordRepeat'); ?>
-			<?= $form->passwordField($resetPasswordForm, 'passwordRepeat'); ?>
-		</div>
+	<? $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+		'id'=>'resetPasswordForm',
+		'layout'=>TbHtml::FORM_LAYOUT_HORIZONTAL,
+		'labelWidthClass'=>'col-sm-4',
+		'controlWidthClass'=>'col-sm-5',
+		'focus'=>'#resetPasswordForm input:password:empty:first, #resetPasswordForm input.error:first',
+	)); ?>
 
-		<div class="row buttons">
-			<?= CHtml::submitButton('Reset Password', array('class'=>'btn btn-primary')); ?>
-		</div>
+	<?= $form->passwordFieldControlGroup($resetPasswordForm, 'password'); ?>
 
-		<? $this->endWidget() ?>
+	<?= $form->passwordFieldControlGroup($resetPasswordForm, 'passwordRepeat'); ?>
 
-	</div><!-- form -->
+	<?= $form->createFormActions(array(
+		TbHtml::submitButton('Reset Password', array(
+			'color'=>TbHtml::BUTTON_COLOR_PRIMARY,
+			'size'=>TbHtml::BUTTON_SIZE_LG,
+		)),
+	)); ?>
+
+	<? $this->endWidget() ?>
 
 <? endif; ?>

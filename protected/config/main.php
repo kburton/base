@@ -18,6 +18,10 @@ return array(
 	// preloading 'log' component
 	'preload'=>array('log'),
 
+	'aliases'=>array(
+		'bootstrap'=>'application.extensions.bootstrap',
+	),
+
 	// autoloading model and component classes
 	'import'=>array(
 		'application.components.*',
@@ -25,13 +29,17 @@ return array(
 		'application.models.behaviors.*',
 		'application.models.forms.*',
 		'ext.mail.YiiMailMessage',
+		'bootstrap.helpers.*',
+		'bootstrap.behaviors.*',
+		'bootstrap.widgets.*',
 	),
-
+	
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
 		/*
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
+			'generatorPaths'=>array('bootstrap.gii'),
 			'password'=>'Enter Your Password Here',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
@@ -76,6 +84,34 @@ return array(
 			'logging'=>true,
 			'dryRun'=>false,
 		),
+		'clientScript'=>array(
+			'scriptMap'=>array(
+				'jquery.js'=>'/lib/jquery/js/jquery-1.11.0.min.js',
+				'jquery.min.js'=>'/lib/jquery/js/jquery-1.11.0.min.js',
+				'jquery-ui.js'=>'/lib/jquery/js/jquery-ui-1.10.4.min.js',
+				'jquery-ui.min.js'=>'/lib/jquery/js/jquery-ui-1.10.4.min.js',
+				'jquery.ba-bbq.js'=>'/lib/jquery/plugins/ba-bbq/jquery.ba-bbq.min.js',
+				'jquery.ba-bbq.min.js'=>'/lib/jquery/plugins/ba-bbq/jquery.ba-bbq.min.js',
+			),
+			'packages'=>array(
+				'jquery'=>array(
+					'baseUrl'=>'/lib/jquery',
+					'js'=>array('js/jquery-1.11.0.min.js'),
+				),
+				'jquery.ui'=>array(
+					'baseUrl'=>'/lib/jquery',
+					'js'=>array('js/jquery-ui-1.10.4.min.js'),
+					'css'=>array('css/base/jquery-ui-1.10.4.min.css'),
+					'depends'=>array('jquery'),
+				),
+				'bootstrap'=>array(
+					'baseUrl'=>'/lib/bootstrap-3.1.1',
+					'js'=>array('js/bootstrap.min.js'),
+					'css'=>array('css/bootstrap.min.css', 'css/bootstrap-theme.min.css', '../../css/bootstrap-yii.css'),
+					'depends'=>array('jquery'),
+				),
+			),
+		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
@@ -99,6 +135,9 @@ return array(
 			'class'=>'CDbHttpSession',
 			'connectionID'=>'db',
 			'timeout'=>14400,
+		),
+		'bootstrap'=>array(
+			'class'=>'bootstrap.components.TbApi',
 		),
 	),
 

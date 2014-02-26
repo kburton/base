@@ -4,43 +4,43 @@
 
 <? else: ?>
 
-	<h1>Request Password Reset</h1>
+	<?= TbHtml::pageHeader('Request Password Reset', ''); ?>
 
-	<p>
-		Please complete the form below if you wish to reset your password.<br />
-		You will receive an email with a link to the password reset page.
-	</p>
-
-	<div class="form">
-
-		<? $form = $this->beginWidget('CActiveForm', array(
-			'id'=>'requestPasswordResetForm',
-			'focus'=>'#requestPasswordResetForm input:text[value=]:first,'
-				   . '#requestPasswordResetForm input[class=error]:first',
-		)); ?>
-
-		<div class="row">
-			<?= $form->labelEx($requestPasswordResetForm, 'email'); ?>
-			<?= $form->error($requestPasswordResetForm, 'email'); ?>
-			<?= $form->textField($requestPasswordResetForm, 'email'); ?>
+	<div class="alert alert-info">
+		<div class="glyphicon glyphicon-info-sign two-line"></div>
+		<div class="alert-content">
+			Please complete the form below if you wish to reset your password.<br />
+			You will receive an email with a link to the password reset page.
 		</div>
+	</div>
 
-		<div class="row captcha">
-			<?= $form->labelEx($requestPasswordResetForm, 'captcha'); ?>
-			<div>
-				<? $this->widget('CCaptcha'); ?><br />
-				<?= $form->error($requestPasswordResetForm, 'captcha'); ?>
-				<?= $form->textField($requestPasswordResetForm, 'captcha'); ?>
-			</div>
-			<div class="hint"><?= Yii::t('captcha', 'hint'); ?></div>
-		</div>
+	<? $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+		'id'=>'requestPasswordResetForm',
+		'layout'=>TbHtml::FORM_LAYOUT_HORIZONTAL,
+		'labelWidthClass'=>'col-sm-3',
+		'controlWidthClass'=>'col-sm-5',
+		'focus'=>'#requestPasswordResetForm input:text:empty:first, #requestPasswordResetForm input.error:first',
+	)); ?>
 
-		<div class="row buttons">
-			<?= CHtml::submitButton('Request Password Reset', array('class'=>'btn btn-primary')); ?>
-		</div>
+	<?= $form->textFieldControlGroup($requestPasswordResetForm, 'email'); ?>
 
-		<? $this->endWidget() ?>
+	<div class="<?= $requestPasswordResetForm->hasErrors('captcha') ? 'has-error' : '' ?>">
+		<?= $form->createCustomGroup($form->labelEx($requestPasswordResetForm, 'captcha'),
+				'<div>' . $this->widget('CCaptcha', array(), true) . '<br />'
+						. $form->textField($requestPasswordResetForm, 'captcha')
+						. $form->error($requestPasswordResetForm, 'captcha') . '</div>',
+				array(
+					'help'=>'<span class="label label-info">Hint</span> ' . Yii::t('captcha', 'hint'),
+				)); ?>
+	</div>
 
-	</div><!-- form -->
+	<?= $form->createFormActions(array(
+		TbHtml::submitButton('Request Password Reset', array(
+			'color'=>TbHtml::BUTTON_COLOR_PRIMARY,
+			'size'=>TbHtml::BUTTON_SIZE_LG,
+		)),
+	)); ?>
+
+	<? $this->endWidget() ?>
 
 <? endif; ?>

@@ -1,5 +1,3 @@
-<h2>Error <?= $code; ?></h2>
+<h1>Error <?= $code ?></h1>
 
-<div class="error">
-	<?= CHtml::encode($message); ?>
-</div>
+<p><?= CHtml::encode($message); ?></p>

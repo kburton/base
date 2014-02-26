@@ -1,39 +1,32 @@
-<h1>Log In</h1>
+<?= TbHtml::pageHeader('Log In', ''); ?>
 
-<div class="form">
+<? $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+	'id'=>'loginForm',
+	'action'=>array('/user/login'),
+	'layout'=>TbHtml::FORM_LAYOUT_HORIZONTAL,
+	'labelWidthClass'=>'col-sm-2',
+	'controlWidthClass'=>'col-sm-5',
+	'focus'=>'#loginForm input:text:empty:first, #loginForm input.error:first',
+)); ?>
 
-	<? $form = $this->beginWidget('CActiveForm', array(
-		'id'=>'loginForm',
-		'action'=>array('/user/login'),
-		'focus'=>'#loginForm input:text[value=]:first,'
-			   . '#loginForm input[class=error]:first',
-	)); ?>
+<?= $form->textFieldControlGroup($loginForm, 'email'); ?>
 
-	<div class="row">
-		<?= $form->labelEx($loginForm, 'email'); ?>
-		<?= $form->error($loginForm, 'email'); ?>
-		<?= $form->textField($loginForm, 'email'); ?>
-	</div>
+<?= $form->passwordFieldControlGroup($loginForm, 'password', array(
+	'help'=>'<span class="label label-info">Hint</span> ' . CHtml::encode(Password::getPolicyMessage()),
+)); ?>
 
-	<div class="row">
-		<?= $form->labelEx($loginForm, 'password'); ?>
-		<div class="hint" style="width:35em;"><?= CHtml::encode(Password::getPolicyMessage()); ?></div>
-		<?= $form->error($loginForm, 'password'); ?>
-		<?= $form->passwordField($loginForm, 'password'); ?>
-		<?= CHtml::link('Forgotten password?', array('/user/request_password_reset')); ?>
-	</div>
+<?= $form->createFormActions(array(
+	TbHtml::submitButton('Log In', array(
+		'color'=>TbHtml::BUTTON_COLOR_PRIMARY,
+		'size'=>TbHtml::BUTTON_SIZE_LG,
+	)),
+	'&nbsp;&nbsp;<div class="checkbox checkbox-inline">'
+		. $form->checkBox($loginForm, 'rememberMe') . ' '
+		. $form->label($loginForm, 'rememberMe')
+		. '</div>',
+)); ?>
 
-	<div class="row rememberMe">
-		<?= $form->checkBox($loginForm, 'rememberMe'); ?>
-		<?= $form->labelEx($loginForm, 'rememberMe'); ?>
-		<?= $form->error($loginForm, 'rememberMe'); ?>
-	</div>
+<?= $form->createStaticGroup(false,
+		CHtml::link('Forgotten password?', array('/user/request_password_reset'))); ?>
 
-	<div class="row buttons">
-		<?= CHtml::submitButton('Log In', array('class'=>'btn btn-primary')); ?>
-	</div>
-
-	<? $this->endWidget() ?>
-	
-</div><!-- form -->
-
+<? $this->endWidget() ?>

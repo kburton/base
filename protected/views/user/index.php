@@ -1,11 +1,14 @@
-<h1>My Account</h1>
+<?= TbHtml::pageHeader('My Account', ''); ?>
 
-<p>
-	Please use the links below to manage your account.
-</p>
+<div class="alert alert-info">
+	<span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;
+	Please use the buttons below to manage your account.
+</div>
 
-<p>
-	<?= CHtml::link('Change Password', array('/user/change_password'), array(
-			'class'=>'btn btn-inverse btn-large',
-			'title'=>'Change your account password')); ?>
-</p>
+<div class="row">
+	<div class="col col-sm-4">
+		<p><?= CHtml::link('Change Password', array('/user/change_password'), array(
+				'class'=>'btn btn-default btn-lg btn-block',
+				'title'=>'Change your account password')); ?></p>
+	</div>
+</div>
